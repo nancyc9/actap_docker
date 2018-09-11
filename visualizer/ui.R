@@ -1,3 +1,4 @@
+#install.packages("leaflet")
 library(shiny)
 library(leaflet)
 
@@ -13,7 +14,7 @@ vars <- c(
 )
 
 
-shinyUI(navbarPage("BETA ---- Community Monitoring --- BETA", id = "nav",
+shinyUI(navbarPage("Adult Changes in Thought - Air Pollution / Community Air Monitoring in Puget Sound (CAMPS)", id = "nav",
                    theme = "bootstrap.css",
                    
  
@@ -92,7 +93,7 @@ shinyUI(navbarPage("BETA ---- Community Monitoring --- BETA", id = "nav",
            #  height = 600,
            
            pageWithSidebar(
-             headerPanel('Hourly Data Plot, Select Sites and Dates'),
+            headerPanel('Hourly Data Plot, Select Sites and Dates'),
              sidebarPanel(
                dateInput("date1", label = "Date / Fecha", value =max(data_wide$date_day, na.rm=T)),
                
@@ -125,7 +126,7 @@ shinyUI(navbarPage("BETA ---- Community Monitoring --- BETA", id = "nav",
                tags$p(textOutput("tsNotation")),
                htmlOutput('notreg'),
                tags$hr(),
-               tags$em(strong(h3(tags$a(href="https://docs.google.com/forms/d/1ePYLqa4SyiobJTVRp1_O_3GrZxhOdaKlZqPScGIXnQc/viewform?edit_requested=true",
+               tags$em(strong(h3(tags$a(href="https://goo.gl/forms/Iq0Gy5ltu06CK7C22",
                                         "Feedback / Comentarios", target="_blank"))))
              )
            )
@@ -167,31 +168,30 @@ shinyUI(navbarPage("BETA ---- Community Monitoring --- BETA", id = "nav",
           fluidPage(
            
             mainPanel(
-              h3("About the San Ysidro Air Monitoring Study"),br(),
-              "As of April 30, 2018, the CalEPA-funded San Ysidro air quality research project has concluded.  We are currently completing a final report to the CalEPA Office of Environmental Health Hazard Assessment (OEHHA) that will document the findings from 2 years of successful community-engaged air quality monitoring for San Ysidro. Over a Gigabyte of air quality data has been collected in the study, making it one of the largest community air quality monitoring projects in California.  We are currently seeking funding from the CARB AB617 program to sustain and upgrade our air quality monitoring in San Ysidro. Until these funds are available, service for the syairstudy.org website will be degraded.",hr(),
-              "Welcome to the web visualization of the San Ysidro Community Air monitoring project. This two-year project, funded by the California Office of Environmental Health Hazard Assessment (OEHHA), has the primary objective of understanding the air pollution health risks faced by the community.",
-              h3("Acerca del Estudio de Monitoreo del Aire de San Ysidro"),
-              "Bienvenido a la visualización por internet del proyecto de monitoreo del Aire de la Comunidad de San Ysidro. Este proyecto de dos años, financiado por la Oficina de Evaluación de Riesgos a la Salud Ambiental (OEHHA), tiene como objetivo principal la comprensión de los riesgos a la salud por la contaminación ambiental que enfrenta la comunidad.",
-              tags$hr(),
-              h3("Project Partners / Socios del Proyecto"),
-              img(src="SYorgwithLogo.png", width=500),
-              tags$hr(),
-              h3("Data Access"),
-              "This project has an open data policy. For those wishing to access the data files used to create this visualization, please complete the following ",
-              
-              strong(tags$a(href="https://docs.google.com/forms/d/e/1FAIpQLSe-Wme3vV3eQCHB4KqPxOI2XR-QQm1M3WQmjy-yK2SkblQydg/viewform?usp=sf_link",
-                            "webform.", target="_blank")),
-              " We do ask that you provide a short description of your intended use of the data. This data is not intended for commercial use.",
+              h3("Adult Changes in Thought - Air Pollution "),br(),
+              "Welcome to the visualization of the ACT- Air Pollution monitoring project. This four-year project, funded by the National Institute of Aging (NIA) and National Institute of Environmental Health Sciences (NIEHS), has the primary goal of understanding the impact of air pollution on Alzheimer's disease and dementia. In addition, the Community Air Monitoring in Puget Sound (CAMPS) companion study has the primary objective of understanding the air pollution health risks faced by the community." ,hr(),
+              h3("Acerca del Estudio de Monitoreo del Aire de Puget Sound"),
+              "Bienvenido a la visualización del proyecto ACT- Control de la contaminación del aire. Este proyecto de cuatro años, financiado por el Instituto Nacional de Envejecimiento (NIA) y el Instituto Nacional de Ciencias de la Salud Ambiental (NIEHS) tiene el objetivo principal de comprender el impacto de la contaminación del aire en la enfermedad de Alzheimer y la demencia. Además, el monitoreo del aire de la comunidad en el estudio acompañante de Puget Sound (CAMPS), tiene el objetivo principal de comprender los riesgos para la contaminación del aire que enfrenta la comunidad."
+             # tags$hr(),
+             # h3("Project Partners / Socios del Proyecto"),
+            #  img(src="SYorgwithLogo.png", width=500),
+             # tags$hr(),
+          #    h3("Data Access"),
+         #     "This project has an open data policy. For those wishing to access the data files used to create this visualization, please complete the following ",
+          #    
+          #    strong(tags$a(href="https://docs.google.com/forms/d/e/1FAIpQLSe-Wme3vV3eQCHB4KqPxOI2XR-QQm1M3WQmjy-yK2SkblQydg/viewform?usp=sf_link",
+           #                 "webform.", target="_blank")),
+           #   " We do ask that you provide a short description of your intended use of the data. This data is not intended for commercial use.",
              
-              h3("Acceso a los Datos"),
-              "Este Proyecto tiene una política de datos abierta. Para aquellos que quieren acceso a los archivos de datos utilizados para crear esta visualización, por favor complete el siguiente",
+          #    h3("Acceso a los Datos"),
+          #    "Este Proyecto tiene una de datos abierta. Para aquellos que quieren acceso a los archivos de datos utilizados para crear esta visualizaciÃÂÃÂ³n, por favor complete el siguiente",
               
-              strong(tags$a(href="https://docs.google.com/forms/d/e/1FAIpQLSe-Wme3vV3eQCHB4KqPxOI2XR-QQm1M3WQmjy-yK2SkblQydg/viewform?usp=sf_link",
-                            "formato de internet", target="_blank")),
-              ". Le pediremos que nos proporciones una descripción corta del uso que pretende darle a los datos. Estos datos no son para uso comercial.",
-              tags$hr(),
-              tags$em(strong(h3(tags$a(href="https://docs.google.com/forms/d/1ePYLqa4SyiobJTVRp1_O_3GrZxhOdaKlZqPScGIXnQc/viewform?edit_requested=true",
-                                       "Feedback / Comentarios", target="_blank"))))
+           #   strong(tags$a(href="https://docs.google.com/forms/d/e/1FAIpQLSe-Wme3vV3eQCHB4KqPxOI2XR-QQm1M3WQmjy-yK2SkblQydg/viewform?usp=sf_link",
+        #                    "formato de internet", target="_blank")),
+         #     ". Le pediremos que nos proporciones una descripciÃÂÃÂ³n corta del uso que pretende darle a los datos. Estos datos no son para uso comercial.",
+        #      tags$hr(),
+         #     tags$em(strong(h3(tags$a(href="https://docs.google.com/forms/d/1ePYLqa4SyiobJTVRp1_O_3GrZxhOdaKlZqPScGIXnQc/viewform?edit_requested=true",
+          #                             "Feedback / Comentarios", target="_blank"))))
               
               
             )))
