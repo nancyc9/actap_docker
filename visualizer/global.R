@@ -28,8 +28,8 @@ colScale <- scale_color_manual(name = "",values = myColors)
 # data_wide[,CO:=CO*1000]
 
 #indexlist<-fread("http://staff.washington.edu/elaustin/index_reference.csv")
-# indexlist<-fread("http://students.washington.edu/nancyc9/data/index_reference.csv")
- indexlist <- fread("H://ShinyApp//actap_docker//visualizer/index_reference.csv")
+ indexlist<-fread("http://students.washington.edu/nancyc9/data/index.reference.csv")
+# indexlist <- fread("H://ShinyApp//actap_docker//visualizer/index_reference.csv")
 
 #data_wide<-fread("http://staff.washington.edu/elaustin/hourly_qa_calibrated_data.csv",
 #                 nrows=indexlist[2,index])
