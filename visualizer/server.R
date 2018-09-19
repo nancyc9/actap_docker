@@ -204,7 +204,11 @@ shinyServer(function(input, output, session) {
       print(paste(tags$b(""), tags$br(),
                   'Data compiled for the ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
+<<<<<<< HEAD
                          tags$em('Adult Changes in Thought - Air Pollution Study'), target="_blank"),
+=======
+                         tags$em('Adult Changes in Thought - Air Pollution'), target="_blank"),
+>>>>>>> e06d904f2ae66212e27eb8caa6f60d4feac9a549
                   tags$br(),
                   'Co-Principal Investigator: ',
                   tags$a(href="http://deohs.washington.edu/faculty/sheppard_lianne", target="_blank",
@@ -220,7 +224,11 @@ shinyServer(function(input, output, session) {
                   tags$b("Todos los datos son preliminares."), tags$br(),
                   'Los datos recopilados por el  ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
+<<<<<<< HEAD
                          tags$em('Proyecto de Datos de Monitoreo del Aire de la Comunidad de Puget Sound'), target="_blank"),
+=======
+                         tags$em('Proyecto de Datos de Monitoreo del Aire de la Comunidad de San Ysidro'), target="_blank"),
+>>>>>>> e06d904f2ae66212e27eb8caa6f60d4feac9a549
                   tags$br(),
                   'Investigadora Co-Principal:  ',
                   tags$a(href="http://deohs.washington.edu/faculty/sheppard_lianne", target="_blank",
@@ -323,7 +331,11 @@ shinyServer(function(input, output, session) {
     }  else if(input$language=="sp"){
       if(input$color=="O3"){
         print(paste(tags$p("El ozono (O3) es el ingrediente principal del smog. A nivel del suelo, el ozono se forma cuando los contaminantes reaccionan quÃ?micamente en la presencia de la luz solar. Las principales fuentes de ozono son los camiones, autos, aviones, trenes, industrias, granjas, construcciÃ³n y tintorerÃ?as."),
+<<<<<<< HEAD
                     tags$p("El ozono puede irritar los pulmones, causar inflamacion y empeorar las enfermedades cronicas, incluso a bajos niveles de exposiciÃ³n. Los niÃ±os y los ancianos son sensibles a los efectos del ozono. Los niveles de ozono son mÃ¡s altos por las tardes y en los dÃ?as calurosos. Las personas que pasan mucho tiempo en exteriores pueden tambiÃ©n ser afectados por el ozono."),
+=======
+                    tags$p("El ozono puede irritar los pulmones, causar inflamaciÃ³n y empeorar las enfermedades crÃ³nicas, incluso a bajos niveles de exposiciÃ³n. Los niÃ±os y los ancianos son sensibles a los efectos del ozono. Los niveles de ozono son mÃ¡s altos por las tardes y en los dÃ?as calurosos. Las personas que pasan mucho tiempo en exteriores pueden tambiÃ©n ser afectados por el ozono."),
+>>>>>>> e06d904f2ae66212e27eb8caa6f60d4feac9a549
                     tags$a(href="https://www.epa.gov/ozone-pollution",
                            tags$em("Para mayor informaciÃ³n acerca del Ozono, consulte el sitio de internet de la EPA. ", 
                                    target="_blank"))
@@ -334,9 +346,15 @@ shinyServer(function(input, output, session) {
         tags$p(),
         "La materia particulada (PM",
         tags$sub(2.5), 
+<<<<<<< HEAD
         ") son particulas muy pequeÃ±as de contaminacion aÃ©rea (menos de 2.5 micrÃ³metros), lo cual es menos que el grueso de un cabello humano. La PM",
         tags$sub(2.5),
         " 5 es una mezcla de particulas que pueden incluir sustancias quÃ?micas organicas, hollÃ?n y metales. Estas partÃ?culas pueden provenir de los autos y camiones, industrias, quema de madera y otras actividades. Pueden desplazarse profundamente en los pulmones y causar diversos problemas de salud incluyendo enfermedad cardÃ?aca y pulmonar porque son muy pequeÃ±as.",
+=======
+        ") son partÃ?culas muy pequeÃ±as de contaminaciÃ³n aÃ©rea (menos de 2.5 micrÃ³metros), lo cual es menos que el grueso de un cabello humano. La PM",
+        tags$sub(2.5),
+        " 5 es una mezcla de partÃ?culas que pueden incluir sustancias quÃ?micas orgÃ¡nicas, hollÃ?n y metales. Estas partÃ?culas pueden provenir de los autos y camiones, industrias, quema de madera y otras actividades. Pueden desplazarse profundamente en los pulmones y causar diversos problemas de salud incluyendo enfermedad cardÃ?aca y pulmonar porque son muy pequeÃ±as.",
+>>>>>>> e06d904f2ae66212e27eb8caa6f60d4feac9a549
         tags$p(),
         "Los niÃ±os, los ancianos y las personas que sufren enfermedad cardÃ?aca o pulmonar, asma o enfermedades crÃ³nicas, son mÃ¡s sensibles a los efectos de la exposiciÃ³n a PM2.5.",
         tags$br(),
