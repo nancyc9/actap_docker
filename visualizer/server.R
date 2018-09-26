@@ -12,10 +12,10 @@ options(device='cairo')
 #create shiny function 
 shinyServer(function(input, output, session) {
   
-##create data in wide form
+  ##create data in wide form
   data_summR <- reactive ({
     
-  data_summary<-data_wide[date_day%in%as.character(input$date),
+    data_summary<-data_wide[date_day%in%as.character(input$date),
                             lapply(.SD, FUN = function (x)
                               mean(as.numeric(as.character(x)), na.rm=T)), 
                             .SDcols=c("longitude","latitude","pm25","CO","NO","NO2","O3"),
@@ -26,8 +26,8 @@ shinyServer(function(input, output, session) {
     # missing_sites<-site_locations[site_short%in%missing_sites]
     # missing_sites<-missing_sites[,c("site_short","latitude","longitude"),with=F]
     # data_summary <<- rbindlist(list(data_summary,missing_sites),fill=T)
-  
-#data is cut into quantiles for slider 
+    
+    #data is cut into quantiles for slider 
     quantileval<-as.numeric(quantile(data_wide[,input$tsvars,with=F],na.rm=T, .995))
     maxval<-max(data_wide[,input$tsvars,with=F],na.rm=T)
     updateSliderInput(session, "ylimpm",max= ceiling(maxval), 
@@ -61,7 +61,7 @@ shinyServer(function(input, output, session) {
   #   }
   # })
   
-# a reactive function is created for the input of the date 
+  # a reactive function is created for the input of the date 
   data <- reactive ({
     
     wanted_date<-as.POSIXct(input$date)
@@ -71,7 +71,7 @@ shinyServer(function(input, output, session) {
     {
       data_wide <- getnewdata(wanted_date)
     }
-   
+    
     if((wanted_date-60*24*60) > mindate)
     {  
       data_wide <- getnewdata(wanted_date)
@@ -102,8 +102,8 @@ shinyServer(function(input, output, session) {
     }
   })
   
-## Interactive Map ##
-    # Set to Seattle Center, can edit lat long to change center of map 
+  ## Interactive Map ##
+  # Set to Seattle Center, can edit lat long to change center of map 
   # Create the map
   observe({
     output$map <- renderLeaflet({
@@ -130,17 +130,17 @@ shinyServer(function(input, output, session) {
     # })
     # 
     
-#regulatory monitoring information and links 
+    #regulatory monitoring information and links 
     output$notreg<-renderText({
       if(input$language=="en"){
         print(paste(strong("The data presented here is preliminary and errors may exist."),
-                    strong(tags$a(href="https://secure.pscleanair.org/AirQuality/NetworkMap",
+                    h4(tags$a(href="https://secure.pscleanair.org/AirQuality/NetworkMap",
                                   "Please follow current outdoor conditions and health recommendations from 
                                   the Puget Sound Clean Air Agency", target="_blank"))))
       } else if (input$language=="sp"){
         
         print(paste(strong("Los datos presentados no son definitivos y pueden existir errores. "),
-                    strong(tags$a(href="https://secure.pscleanair.org/AirQuality/NetworkMap",
+                    h4(tags$a(href="https://secure.pscleanair.org/AirQuality/NetworkMap",
                                   "Por favor siga las recomendaciones actuales de condiciones exteriores y de salud de la Agencia de Aire de Puget Sound.", target="_blank"))))
         
         
@@ -150,13 +150,13 @@ shinyServer(function(input, output, session) {
       
       
     })
-#variables and inputs in Spanish and English 
+    #variables and inputs in Spanish and English 
     observe({
       if(input$language=="sp"){
         vars <- c(
           "Materia Particulada " = "pm25", #"Is SuperZIP?" = "superzip",
           "Monóxido de Carbono" = "CO", #"Centile score" = "centile",
-          "óxido de Nitrógeno" = "NO",
+          "Óxido de Nitrógeno" = "NO",
           "Dióxido de Nitrógeno" = "NO2",
           "Ozono" = "O3"
         )
@@ -167,7 +167,7 @@ shinyServer(function(input, output, session) {
         )
         updateSelectInput(session, inputId="tsvars",
                           choices=vars,
-                        selected = "pm25"
+                          selected = "pm25"
         )
         
       }
@@ -191,28 +191,28 @@ shinyServer(function(input, output, session) {
       }
     })
     
-    
-    
+
     output$translateMessage <- reactive({
-      ifelse(input$language=="sp","La versiÃ³n en espaÃ±ol estÃ¡ en desarrollo.",
+      ifelse(input$language=="sp","La version en español esta en desarrollo.",
              "")})
     
   })
   
   output$citedesc <- renderText({
     if(input$language=="en") {
-      print(paste(tags$b(""), tags$br(),
+      print(paste(tags$b("The data presented are NOT regulatory data."), tags$br(),
+                  tags$b("All the data are preliminary estimates."), tags$br(),
                   'Data compiled for the ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
-                         tags$em('Adult Changes in Thought - Air Pollution'), target="_blank"),
+                         tags$em('Adult Changes in Thought - Air Pollution Study'), target="_blank"),
                   tags$br(),
                   'Co-Principal Investigator: ',
                   tags$a(href="http://deohs.washington.edu/faculty/sheppard_lianne", target="_blank",
                          "Dr. Lianne Sheppard"),
                   ' at University of Washington',
-                  tags$br(),"Visualization by Nancy Carmona at University of Washington",
+                  tags$br(),"Visualization by Nancy Carmona at the University of Washington",
                   tags$br(),"Funded by the ", 
-                  tags$a("National Institute of Aging (NIA) and National Institute of Environmental Health Science (NIEHS)",
+                  tags$a(href= "https://iadrp.nia.nih.gov/project/air-pollution-aging-brain-and-alzheimers-disease-2", target="_blank", "National Institute of Aging (NIA) and National Institute of Environmental Health Science (NIEHS)",
                          target="_blank")
       ))
     }else if(input$language=="sp") {
@@ -220,7 +220,7 @@ shinyServer(function(input, output, session) {
                   tags$b("Todos los datos son preliminares."), tags$br(),
                   'Los datos recopilados por el  ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
-                         tags$em('Proyecto de Datos de Monitoreo del Aire de la Comunidad de San Ysidro'), target="_blank"),
+                         tags$em('Proyecto de Datos de Monitoreo del Aire de la Comunidad de Puget Sound'), target="_blank"),
                   tags$br(),
                   'Investigadora Co-Principal:  ',
                   tags$a(href="http://deohs.washington.edu/faculty/sheppard_lianne", target="_blank",
@@ -228,14 +228,14 @@ shinyServer(function(input, output, session) {
                   ' en la Universidad de Washington',
                   tags$br(),"Visualización por Nancy Carmona en la Universidad de Washington",
                   tags$br(),"Financiado por la ", 
-                  tags$a(href= "Instituto Nacional de Envejevimiento (NIA) y el Instituto Nacional de Ciencias del Medio Ambiente (NIEHS) ",
+                  tags$a(href= "https://iadrp.nia.nih.gov/project/air-pollution-aging-brain-and-alzheimers-disease-2", target="_blank", "Instituto Nacional de Envejevimiento (NIA) y el Instituto Nacional de Ciencias del Medio Ambiente (NIEHS) ",
                          target="_blank")
       ))
     }
     
   })
   
-# informaiton about each air pollutant in English and Spanish 
+  # informaiton about each air pollutant in English and Spanish 
   
   output$poldesc<- renderText({
     if(input$language=="en"){
@@ -322,10 +322,10 @@ shinyServer(function(input, output, session) {
       }
     }  else if(input$language=="sp"){
       if(input$color=="O3"){
-        print(paste(tags$p("El ozono (O3) es el ingrediente principal del smog. A nivel del suelo, el ozono se forma cuando los contaminantes reaccionan quÃ?micamente en la presencia de la luz solar. Las principales fuentes de ozono son los camiones, autos, aviones, trenes, industrias, granjas, construcciÃ³n y tintorerÃ?as."),
-                    tags$p("El ozono puede irritar los pulmones, causar inflamaciÃ³n y empeorar las enfermedades crÃ³nicas, incluso a bajos niveles de exposiciÃ³n. Los niÃ±os y los ancianos son sensibles a los efectos del ozono. Los niveles de ozono son mÃ¡s altos por las tardes y en los dÃ?as calurosos. Las personas que pasan mucho tiempo en exteriores pueden tambiÃ©n ser afectados por el ozono."),
+        print(paste(tags$p("El ozono (O3) es el ingrediente principal del smog. A nivel del suelo, el ozono se forma cuando los contaminantes reaccionan quimicamente en la presencia de la luz solar. Las principales fuentes de ozono son los camiones, autos, aviones, trenes, industrias, granjas, construccion y tintorerias."),
+                    tags$p("El ozono puede irritar los pulmones, causar inflamacion y empeorar las enfermedades cronicas, incluso a bajos niveles de exposicion. Los niños y los ancianos son sensibles a los efectos del ozono. Los niveles de ozono son mas altos por las tardes y en los dias calurosos. Las personas que pasan mucho tiempo en exteriores pueden tambien ser afectados por el ozono."),
                     tags$a(href="https://www.epa.gov/ozone-pollution",
-                           tags$em("Para mayor informaciÃ³n acerca del Ozono, consulte el sitio de internet de la EPA. ", 
+                           tags$em("Para mayor informacion acerca del Ozono, consulte el sitio de internet de la EPA. ", 
                                    target="_blank"))
                     
         ))
@@ -334,14 +334,14 @@ shinyServer(function(input, output, session) {
         tags$p(),
         "La materia particulada (PM",
         tags$sub(2.5), 
-        ") son partÃ?culas muy pequeÃ±as de contaminaciÃ³n aÃ©rea (menos de 2.5 micrÃ³metros), lo cual es menos que el grueso de un cabello humano. La PM",
+        ") son particulas muy pequeñas de contaminacion en el aire (menos de 2.5 micrometros), lo cual es menos que el grueso de un cabello humano. La PM",
         tags$sub(2.5),
-        " 5 es una mezcla de partÃ?culas que pueden incluir sustancias quÃ?micas orgÃ¡nicas, hollÃ?n y metales. Estas partÃ?culas pueden provenir de los autos y camiones, industrias, quema de madera y otras actividades. Pueden desplazarse profundamente en los pulmones y causar diversos problemas de salud incluyendo enfermedad cardÃ?aca y pulmonar porque son muy pequeÃ±as.",
+        " 5 es una mezcla de particulas que pueden incluir sustancias quimicas oraganicas, y metales. Estas particulas pueden provenir de los autos y camiones, industrias, quema de madera y otras actividades. Pueden desplazarse profundamente en los pulmones y causar diversos problemas de salud incluyendo enfermedad cardiaca y pulmonar porque son muy pequeñas.",
         tags$p(),
-        "Los niÃ±os, los ancianos y las personas que sufren enfermedad cardÃ?aca o pulmonar, asma o enfermedades crÃ³nicas, son mÃ¡s sensibles a los efectos de la exposiciÃ³n a PM2.5.",
+        "Los niños, los ancianos y las personas que sufren enfermedad cardiaca o pulmonar, asma o enfermedades cronicas, son mas sensibles a los efectos de la exposicion a PM2.5.",
         tags$br(),
         tags$a(href="https://www.epa.gov/pm-pollution/particulate-matter-pm-basics#PM",                        
-               tags$em(paste0("Para mayor informaciÃ³n acerca de PM, consulte el sitio de internet de la EPA.")),
+               tags$em(paste0("Para mayor informacion acerca de PM, consulte el sitio de internet de la EPA.")),
                target="_blank")
       )
       )
@@ -350,11 +350,11 @@ shinyServer(function(input, output, session) {
         tags$p(),
         "El Dióxido de Nitrógeno (NO",
         tags$sub(2), 
-        ") es uno de un grupo de gases altamente reactivos conocidos como Ã³xidos de nitrÃ³geno (NO",
+        ") es uno de un grupo de gases altamente reactivos conocidos como oxidos de nitrogeno (NO",
         tags$sub("x"),
-        "). Otros Ã³xidos de nitrÃ³geno incluyen Ã¡cido nitroso y Ã¡cido nÃ?trico. El NO",
+        "). Otros oxidos de nitrogeno incluyen acido nitroso y acido nitrico. El NO",
         tags$sub(2),
-        " es utilizado como indicador de un grupo mÃ¡s amplio de Ã³xidos de nitrÃ³geno.",
+        " es utilizado como indicador de un grupo mas amplio de oxidos de nitrogeno.",
         tags$p(),
         "El NO",
         tags$sub(2),
@@ -362,44 +362,44 @@ shinyServer(function(input, output, session) {
         El NO",
         tags$sub(2),
         " se forma a partir de las emisiones de los autos, camiones, autobuses, 
-        plantas de energÃ?a elÃ©ctrica y equipos todo terreno.",
+        plantas de energia electrica y equipos todo terreno.",
         tags$p(),
-        "Las personas con asma, asÃ? como los niÃ±os y los ancianos, generalmente tienen mayor riesgo de sufrir los efectos del NO",
+        "Las personas con asma, los niños y los ancianos, generalmente tienen mayor riesgo de sufrir los efectos del NO",
         tags$sub(2)," a la salud.",
         tags$br(),
         tags$a(href="https://www.epa.gov/no2-pollution/basic-information-about-no2#What is NO2",                        
-               tags$em(paste0("Para mayor informaciÃ³n acerca del DiÃ³xido de NitrÃ³geno, consulte el sitio de internet de la EPA.")),
+               tags$em(paste0("Para mayor informacion acerca del Dioxido de Nitrogeno, consulte el sitio de internet de la EPA.")),
                target="_blank")
       )
       )
       } else if (input$color == "NO")
       {print(paste0(
         tags$p(),
-        "El Ãxido de NitrÃ³geno (NO) es uno de un grupo de gases altamente reactivos conocidos como Ã³xidos de nitrÃ³geno (NO",
+        "El Óxido de Nitrogeno (NO) es uno de un grupo de gases altamente reactivos conocidos como oxidos de nitrogeno (NO",
         tags$sub("x"),
-        "). Otros oxidos de nitrogeno incluyen Ã¡cido nitroso y Ã¡cido nÃ?trico. El NO",
+        "). Otros oxidos de nitrogeno incluyen acido nitroso y acido nitrico. El NO",
         tags$sub(2),
-        "  es utilizado por la EPA como indicador de un grupo mÃ¡s amplio de Ã³xidos de nitrÃ³geno.",
+        "  es utilizado por la EPA como indicador de un grupo mas amplio de oxidos de nitrogeno.",
         tags$p(),
         " El NO es un gas incoloro y el componente principal de los sistemas de escape a diesel.",
         tags$p(),
-        "Las personas con asma, asÃ? como los niÃ±os y los ancianos tienen mayor riesgo de sufrir los efectos del NO a la salud.",
+        "Las personas con asma, los niños y los ancianos tienen mayor riesgo de sufrir los efectos del NO a la salud.",
         tags$br(),
         tags$a(href="https://www.epa.gov/no2-pollution/basic-information-about-no2#What is NO2",                        
-               tags$em(paste0("Para mayor informaciÃ³n acerca del Ãxido de NitrÃ³geno, consulte el sitio de internet de la EPA. ")),
+               tags$em(paste0("Para mayor informacion acerca del Oxido de Nitrogeno, consulte el sitio de internet de la EPA. ")),
                target="_blank")
       )
       )
       } else if (input$color == "CO")
       {print(paste0(
         tags$p(),
-        "El MonÃ³xido de Carbono (CO) es un gas incoloro e inodoro que puede ser nocivo cuando se inhala en grandes cantidades. El CO se libera cuando algo se quema. Las mayores fuentes de CO al aire exterior son los autos, camiones y otros vehÃ?culos o maquinaria que queman combustibles fÃ³siles.",
+        "El Monoxido de Carbono (CO) es un gas incoloro e inodoro que puede ser nocivo cuando se inhala en grandes cantidades. El CO se libera cuando algo se quema. Las mayores fuentes de CO al aire exterior son los autos, camiones y otros vehiculos o maquinaria que queman combustibles.",
         tags$p(),
-        "Niveles muy altos de CO no es probable que ocurran al aire libre. Sin embargo, cuando los niveles de CO se elevan en exteriores, pueden ser de especial interÃ©s para las personas con algunos tipos de enfermedad cardiaca. Estas personas tienen ya una habilidad reducida para recibir sangre oxigenada en su corazÃ³n en situaciones donde el corazÃ³n necesita mÃ¡s oxÃ?geno de lo habitual. ",
+        "Niveles muy altos de CO no es probable que ocurran al aire libre. Sin embargo, cuando los niveles de CO se elevan en exteriores, pueden ser de especial interes para las personas con algunos tipos de enfermedad cardiaca. Estas personas tienen ya una habilidad reducida para recibir sangre oxigenada en su corazon en situaciones donde el corazon necesita mas oxigeno de lo habitual. ",
         tags$p(),
         tags$br(),
         tags$a(href="https://www.epa.gov/co-pollution/basic-information-about-carbon-monoxide-co-outdoor-air-pollution#What is CO",                        
-               tags$em(paste0("Para mayor informaciÃ³n acerca del MonÃ³xido de Carbono, consulte el sitio de internet de la EPA.")),
+               tags$em(paste0("Para mayor informacion acerca del Monoxido de Carbono, consulte el sitio de internet de la EPA.")),
                target="_blank")
       )
       )
@@ -410,7 +410,7 @@ shinyServer(function(input, output, session) {
   
   output$tsNotationtitle<-renderText({
     
-    ifelse(input$language=="en", "Interpreting this data with respect to government health based standards:", "La informaciÃ³n se interpreta en relaciÃ³n con los estÃ¡ndares gubernamentales de salud.")
+    ifelse(input$language=="en", "Interpreting this data with respect to government health based standards:", "La informacion se interpreta en relacion con los estandares gubernamentales de salud.")
     
     
   })
@@ -437,7 +437,7 @@ shinyServer(function(input, output, session) {
       labels<-c("pm25"="Materia Particulada",
                 "O3"="Ozono",
                 "NO2"="Dioxido de Nitrogeno",
-                "NO" = "Oxido de Nitrógeno",
+                "NO" = "Óxido de Nitrógeno",
                 "CO" = "Monóxido de Carbono")}
     if (sum(is.na(plotdata[,varvalue, with=F]))==nrow(plotdata)) {
       
@@ -511,58 +511,58 @@ shinyServer(function(input, output, session) {
         print(
           
           if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)>0) {
-            paste("Para estos sitios, en este dÃ?a, existen horas cuando Ã©l",
+            paste("Para estos sitios, en este dia, existen horas cuando el",
                   labels[varvalue],
-                  "medido por esta red de sensores exceda en 1 hora el estÃ¡ndar NAAQS de 90 ppb establecido por la EPA.")
+                  "nivel medido por esta red de sensores exceda en 1 hora el nivel recommendado (NAAQS) de 90 ppb establecido por la EPA.")
           } else if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)==0) {
-            paste("Para estos sitios, en este dÃ?a, NO existen horas del",
+            paste("Para estos sitios, en este dia, NO existen horas del",
                   labels[varvalue], 
-                  "medido por esta red de sensores exceda en 1 hora el estÃ¡ndar NAAQS de 90 ppb establecido por la EPA.")
+                  "nivel medido por esta red de sensores que exceda en 1 hora el nivel recommendado (NAAQS) de 90 ppb establecido por la EPA.")
           })}   
       
-      else if (varvalue%in%c("NO")) {print("No existe recomendaciÃ³n con base en la salud para este contaminante.")
+      else if (varvalue%in%c("NO")) {print("No existe recomendacion con base en la salud para este contaminante.")
       } else if(varvalue%in%c("NO2")) {
         
         print(
           
           if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)>0) {
-            paste("Para estos sitios, en este dÃ?a, existen horas cuando Ã©l",
+            paste("Para estos sitios, en este dia, existen horas cuando el",
                   labels[varvalue],
-                  "medido por esta red de sensores", 
-                  "exceda en 1 hora el estÃ¡ndar NAAQS de 100 ppb establecido por la EPA.")
+                  "nivel medido por esta red de sensores", 
+                  "exceda en 1 hora el nivel recomendado (NAAQS) de 100 ppb  por la EPA.")
           } else if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)==0) {
-            paste("Para estos sitios, en este dÃ?a, NO existen horas cuando Ã©l",
+            paste("Para estos sitios, en este dia, NO existen horas cuando el",
                   labels[varvalue],
-                  "medido por esta red de sensores", 
-                  "exceda en 1 hora el estÃ¡ndar NAAQS de 100 ppb establecido por la EPA.")
+                  "nivel medido por esta red de sensores", 
+                  "exceda en 1 hora el nivel recomendado (NAAQS) de 100 ppb  por la EPA.")
           } else {paste("There is no data.")}
         )} else if(varvalue%in%c("CO")) {
           
           print(
             if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)>0)
             {
-              paste("Para estos sitios, en este dÃ?a, existen horas cuando Ã©l",
+              paste("Para estos sitios, en este dia, existen horas cuando el",
                     labels[varvalue],
-                    "medido por esta red de sensores", 
-                    "exceda en 8-hora el estÃ¡ndar NAAQS de 9 ppm establecido por la EPA.")
+                    "nivel medido por esta red de sensores", 
+                    "exceda en 8-hora el nivel recomendado (NAAQS) de 9 ppm  por la EPA.")
             }   else if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)==0) {
-              paste("Para estos sitios, en este dÃ?a, NO existen horas cuando Ã©l",
+              paste("Para estos sitios, en este dia, NO existen horas cuando el",
                     labels[varvalue],
-                    "medido por esta red de sensores", 
-                    "exceda en 8-hora el estÃ¡ndar NAAQS de 9 ppm establecido por la EPA.")} )
+                    "nivel medido por esta red de sensores", 
+                    "exceda en 8-hora el nivel recomendado (NAAQS) de 9 ppm  por la EPA.")} )
         } else if(varvalue%in%c("pm25")){
           print(
             if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)>0)
             {
-              paste("Para estos sitios, en este dÃ?a, existen horas cuando Ã©l",
+              paste("Para estos sitios, en este dia, existen horas cuando el",
                     labels[varvalue],
                     "medido por esta red de sensores", 
-                    "exceda en 24-hora el estÃ¡ndar NAAQS de 35 ug/m3 establecido por la EPA.")
+                    "exceda en 24-hora el estandar (NAAQS) de 35 ug/m3 establecido por la EPA.")
             }   else if(sum(plotdata[,varvalue, with=F]>=NAAQS24hr[varvalue], na.rm=T)==0) {
-              paste("Para estos sitios, en este dÃ?a, NO existen horas cuando Ã©l",
+              paste("Para estos sitios, en este dia, NO existen horas cuando el",
                     labels[varvalue],
-                    "medido por esta red de sensores", 
-                    "exceda en 24-hora el estÃ¡ndar NAAQS de 35 ug/m3 establecido por la EPA.")}
+                    "nivel medido por esta red de sensores", 
+                    "exceda en 24-hora el nivel recomendado (NAAQS) de 35 ug/m3  por la EPA.")}
           )
         }
       
@@ -602,9 +602,9 @@ shinyServer(function(input, output, session) {
     }else if(input$language=="sp")
       ylab.values<-c("pm25"="Materia Particulada  - PM2.5 (ug/m3)",
                      "O3"="Ozono (ppb)",
-                     "NO2"="DiÃ³xido de NitrÃ³geno (ppb)",
-                     "NO" = "Ãxido de NitrÃ³geno  (ppb)",
-                     "CO" = "MonÃ³xido de Carbono (ppm)")
+                     "NO2"="Dioxido de Nitrogeno (ppb)",
+                     "NO" = "Oxido de Nitrogeno  (ppb)",
+                     "CO" = "Monoxido de Carbono (ppm)")
     
     if(varvalue%in%c("CO") & nrow(plotdata)>0){
       print(ggplot(data=plotdata,
@@ -688,15 +688,15 @@ shinyServer(function(input, output, session) {
     if(as.POSIXct(input$date) >= Sys.time())
       return()
     
-
+    
     data_summ <- data_summR()
-# set a max value for each pollutant, can be edited depending on max value expected   
+    # set a max value for each pollutant, can be edited depending on max value expected   
     limitsbypoll<-c("pm25"=80,
                     "O3"=100,
                     "NO"=120,
                     "NO2"=120,
                     "CO" =2)
-# set the width of bins for gradient on map 
+    # set the width of bins for gradient on map 
     binsbypoll<-c("pm25"=10,
                   "O3"=10,
                   "NO"=10,
@@ -715,17 +715,17 @@ shinyServer(function(input, output, session) {
     }
     
     if(nrow(data_summary1)>1){
-# color scheme for gradients is based on a palette and bin size       
+      # color scheme for gradients is based on a palette and bin size       
       colorData2 <- data_summary1[[colorBy]]
       # http://davidjohnstone.net/pages/lch-lab-colour-gradient-picker
-    palette_rev2 <- c("#0066b2","#00addd","#00e9a2","#f2cd00","#c69522","#9c5600","#62452c")
-    pal2 <- colorBin(palette_rev2, bins= binsbypoll[colorBy], pretty=T, na.color ="lightgrey",
+      palette_rev2 <- c("#0066b2","#00addd","#00e9a2","#f2cd00","#c69522","#9c5600","#62452c")
+      pal2 <- colorBin(palette_rev2, bins= binsbypoll[colorBy], pretty=T, na.color ="lightgrey",
                        c(0,max(limitsbypoll[colorBy],
-                              quantile(data_wide[,colorBy, 
-                                                 by=date_day,with=F], 
+                               quantile(data_wide[,colorBy, 
+                                                  by=date_day,with=F], 
                                         na.rm=T, .996))))}
-
-
+    
+    
     #}
     
     #if (sizeBy == "superzip") {
@@ -771,12 +771,12 @@ shinyServer(function(input, output, session) {
       label.vals[!is.finite(colorData)]="Sin Datos"
     
     
-   if(!is.null(colorData)){
-     leafletProxy("map", data = data_summ) %>% #data = zipdata) %>%
-     clearShapes() %>%  clearPopups() %>%
-       clearMarkers() %>%
+    if(!is.null(colorData)){
+      leafletProxy("map", data = data_summ) %>% #data = zipdata) %>%
+        clearShapes() %>%  clearPopups() %>%
+        clearMarkers() %>%
         addCircleMarkers(~longitude, ~latitude, radius= 12, layerId = ~site, 
-                        stroke=T, color="black",weight=2, opacity=.8,
+                         stroke=T, color="black",weight=2, opacity=.8,
                          fillOpacity=1, 
                          fillColor=pal2(colorData),
                          options = markerOptions(draggable = FALSE, riseOnHover=T)) %>%
@@ -799,7 +799,7 @@ shinyServer(function(input, output, session) {
     
   })
   
-# Show a popup at the given location
+  # Show a popup at the given location
   showSitecodePopup <- function(id) {
     
     legend.values<-c("pm25"=paste0("PM",tags$sub(2.5)),
@@ -811,16 +811,16 @@ shinyServer(function(input, output, session) {
                     "O3"="ppb",
                     "NO2"="ppb",
                     "NO" ="ppb",
-                   "CO" = "ppm")
+                    "CO" = "ppm")
     
     selectedSite <- data_summR()[site%in%id,]
     
-  
+    
     content <- as.character(tagList(
-#      #tags$h4("Mean:", round(selectedSite$pm25,2)),
+      #      #tags$h4("Mean:", round(selectedSite$pm25,2)),
       tags$strong(HTML(sprintf("%s",
                                site_locations[site==selectedSite$site,]$site))), 
-     tags$br(),
+      tags$br(),
       print(
         if(!is.na(round(selectedSite[,input$color,with=F])))
         {
@@ -834,7 +834,7 @@ shinyServer(function(input, output, session) {
                                       content, layerId = id)
   }
   
-# When map is clicked, show a popup with pollutant info at each site 
+  # When map is clicked, show a popup with pollutant info at each site 
   observe({
     leafletProxy("map") %>% clearPopups()
     event <- input$map_marker_click
