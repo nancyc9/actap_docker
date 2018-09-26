@@ -9,7 +9,6 @@ library(ggplot2)
 #need data_wide and site_locations
 
 #site_locations
-#site_locations<-fread("http://staff.washington.edu/elaustin/site_locations_nopred.csv")
 site_locations<-fread("http://students.washington.edu/nancyc9/data/site_locations_nopred.csv")
 site_locations<-site_locations[!is.na(longitude)]
 
@@ -27,15 +26,17 @@ colScale <- scale_color_manual(name = "",values = myColors)
 # data_wide<-data.table(dbGetQuery(db.SYdata, sqlcmd))
 # data_wide[,CO:=CO*1000]
 
-#indexlist<-fread("http://staff.washington.edu/elaustin/index_reference.csv")
- indexlist<-fread("http://students.washington.edu/nancyc9/data/index.reference.csv")
-# indexlist <- fread("H://ShinyApp//actap_docker//visualizer/index_reference.csv")
-
-#data_wide<-fread("http://staff.washington.edu/elaustin/hourly_qa_calibrated_data.csv",
-#                 nrows=indexlist[2,index])
+ indexlist<-fread("http://students.washington.edu/nancyc9/data/index_reference.csv")
+# indexlist <- fread("H://ShinyApp/actap_docker/visualizer/index_reference.csv")
+# indexlist <- fread("H:\\ShinyApp\\actap_docker\\visualizer\\index.reference.csv")
 
 # data_wide<-fread("http://students.washington.edu/nancyc9/data/dataset_shiny.csv")
 #                 nrows=indexlist[2,index])
+
+
+# data_wide <- fread("http://students.washington.edu/nancyc9/data/dataset_shiny.csv", 
+#                    nrows=indexlist[2, index])
+
 data_wide <- fread("http://datafeed.deohs.washington.edu/ACT/calibrated_dataset_for_shiny.csv",
   nrows=indexlist[2,index])
 
@@ -43,8 +44,6 @@ data_wide_header<-copy(names(data_wide))
 #data_wide[,datetime:=as.POSIXct(datetime)]
 data_wide$datetime <- as.POSIXct(data_wide$datetime)
 data_wide[,date_day:=format(datetime, "%Y-%m-%d")]
-
-
 
 #if(is.null(data_wide$NO_donovan)){
 #data_wide[,NO_donovan := NA]
@@ -94,7 +93,8 @@ getnewdata<-function(wanted_date){
     start_row<- max(indexlist[as.POSIXct(paste0(year,"-",month,"-01"))>wanted_date,]$index)
     end_row <-indexlist[as.POSIXct(paste0(year,"-",month,"-01"))<wanted_date,index][2]
     data_wide<-fread("http://datafeed.deohs.washington.edu/ACT/calibrated_dataset_for_shiny.csv",
-                     skip=start_row, nrow=end_row-start_row)
+#                     skip=start_row,
+                     nrow=end_row-start_row)
     names(data_wide)<-data_wide_header
     }
     data_wide[,datetime:=as.POSIXct(datetime)]
