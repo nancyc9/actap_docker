@@ -198,10 +198,13 @@ shinyServer(function(input, output, session) {
     
   })
   
+  
+  
   output$citedesc <- renderText({
     if(input$language=="en") {
       print(paste(tags$b("The data presented are NOT regulatory data."), tags$br(),
                   tags$b("All the data are preliminary estimates."), tags$br(),
+                  tags$b("Data may take up to a day to transmit."), tags$br(),
                   'Data compiled for the ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
                          tags$em('Adult Changes in Thought - Air Pollution Study'), target="_blank"),
@@ -218,6 +221,7 @@ shinyServer(function(input, output, session) {
     }else if(input$language=="sp") {
       print(paste(tags$b("Los datos presentados NO son datos reglamentarios."), tags$br(),
                   tags$b("Todos los datos son preliminares."), tags$br(),
+                  tags$b("Los datos pueden tardar hasta un dia en transmitirse."), tags$br(),
                   'Los datos recopilados por el  ',
                   tags$a(href="http://deohs.washington.edu/act-ap",
                          tags$em('Proyecto de Datos de Monitoreo del Aire de la Comunidad de Puget Sound'), target="_blank"),

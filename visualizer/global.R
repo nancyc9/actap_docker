@@ -9,7 +9,7 @@ library(ggplot2)
 #need data_wide and site_locations
 
 #site_locations
-site_locations<-fread("http://students.washington.edu/nancyc9/data/site_locations_nopred.csv")
+site_locations<-fread("http://staff.washington.edu/coop16/data/site_locations_nopred.csv")
 site_locations<-site_locations[!is.na(longitude)]
 
 myColors <- rainbow(nrow(site_locations))
@@ -26,7 +26,7 @@ colScale <- scale_color_manual(name = "",values = myColors)
 # data_wide<-data.table(dbGetQuery(db.SYdata, sqlcmd))
 # data_wide[,CO:=CO*1000]
 
- indexlist<-fread("http://students.washington.edu/nancyc9/data/index_reference.csv")
+ indexlist<-fread("http://staff.washington.edu/coop16/data/index_reference.csv")
 # indexlist <- fread("H://ShinyApp/actap_docker/visualizer/index_reference.csv")
 # indexlist <- fread("H:\\ShinyApp\\actap_docker\\visualizer\\index.reference.csv")
 
